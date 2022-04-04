@@ -12,11 +12,19 @@ class Employee:
         self.__standard_band = standard_band
 
     def compute_payment(self, hours_worked, date):
-        overtime_rate = self.__hourly_rate * self.__ot_multiple
+        overtime_rate = int(self.__hourly_rate * self.__ot_multiple)
         overtime_hours_worked = hours_worked - self.__reg_hours
-        regular_pay = self.reg_hours * self.__hourly_rate
-        overtime_pay = overtime_rate * overtime_hours_worked
-        gross_pay = regular_pay + overtime_pay
+        regular_pay = self.__reg_hours * self.__hourly_rate
+        overtime_pay = int(overtime_rate * overtime_hours_worked)
+        gross_pay = int(regular_pay + overtime_pay)
+        higher_rate_pay = 0 if gross_pay < self.__standard_band else gross_pay - \
+            self.__standard_band
+        standart_tax = int("{:.0f}".format(gross_pay * 0.2))
+        higher_tax = higher_rate_pay * 0.4
+        total_tax = standart_tax + higher_tax
+        prsi = gross_pay * 0.04
+        net_tax = float("{:.1f}".format(total_tax - self.__tax_credit))
+        net_deductions = prsi + net_tax
 
         return {'name': f'{self.__first_name} {self.__last_name}',
                 'Date': '31/10/2021',
@@ -28,12 +36,12 @@ class Employee:
                 'Overtime Pay': overtime_pay,
                 'Gross Pay': gross_pay,
                 'Standard Rate Pay': self.__standard_band,
-                'Higher Rate Pay': 2,
-                'Standard Tax': 142,
-                'Higher Tax': 0.8,
-                'Total Tax': 142.8,
-                'Tax Credit': 72,
-                'Net Tax': 70.8,
-                'PRSI': 28.48,
-                'Net Deductions': 99.28,
-                'Net Pay': 612.72}
+                'Higher Rate Pay': higher_rate_pay,
+                'Standard Tax': standart_tax,
+                'Higher Tax': higher_tax,
+                'Total Tax': total_tax,
+                'Tax Credit': self.__tax_credit,
+                'Net Tax': net_tax,
+                'PRSI': prsi,
+                'Net Deductions': net_deductions,
+                'Net Pay':  gross_pay - net_deductions}
