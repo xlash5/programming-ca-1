@@ -44,4 +44,4 @@ class Employee:
                 'Net Tax': net_tax,
                 'PRSI': prsi,
                 'Net Deductions': net_deductions,
-                'Net Pay':  gross_pay - net_deductions}
+                'Net Pay': float("{:.2f}".format(gross_pay - net_deductions))}
