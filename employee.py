@@ -1,4 +1,6 @@
 # StaffID, LastName, FirstName, RegHours, HourlyRate, OTMultiple, TaxCredit, StandardBand,
+import datetime
+
 
 class Employee:
     def __init__(self, staff_id, last_name, first_name, reg_hours, hourly_rate, ot_multiple, tax_credit, standard_band):
@@ -12,6 +14,12 @@ class Employee:
         self.__standard_band = standard_band
 
     def compute_payment(self, hours_worked, date):
+        # validate date format
+        try:
+            datetime.datetime.strptime(date, '%d/%m/%Y')
+        except Exception as e:
+            return False
+
         overtime_rate = int(self.__hourly_rate * self.__ot_multiple)
         overtime_hours_worked = hours_worked - self.__reg_hours
         regular_pay = self.__reg_hours * self.__hourly_rate
@@ -27,7 +35,7 @@ class Employee:
         net_deductions = prsi + net_tax
 
         return {'name': f'{self.__first_name} {self.__last_name}',
-                'Date': '31/10/2021',
+                'Date': date,
                 'Regular Hours Worked': self.__reg_hours,
                 'Overtime Hours Worked': overtime_hours_worked,
                 'Regular Rate': self.__hourly_rate,
