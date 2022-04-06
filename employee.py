@@ -21,7 +21,7 @@ class Employee:
         try:
             datetime.datetime.strptime(date, '%d/%m/%Y')
         except Exception as e:
-            return False
+            raise ValueError('Invalid date format')
 
         reg_hours_worked = self.__reg_hours if self.__reg_hours <= hours_worked else hours_worked
         overtime_rate = int(self.__hourly_rate * self.__ot_multiple)
