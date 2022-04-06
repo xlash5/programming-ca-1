@@ -1,5 +1,8 @@
 # StaffID, LastName, FirstName, RegHours, HourlyRate, OTMultiple, TaxCredit, StandardBand,
 import datetime
+PRSI_RATE = 0.04
+HIGHER_RATE = 0.4
+STANDARD_RATE = 0.2
 
 
 class Employee:
@@ -20,23 +23,24 @@ class Employee:
         except Exception as e:
             return False
 
+        reg_hours_worked = self.__reg_hours if self.__reg_hours <= hours_worked else hours_worked
         overtime_rate = int(self.__hourly_rate * self.__ot_multiple)
-        overtime_hours_worked = hours_worked - self.__reg_hours
-        regular_pay = self.__reg_hours * self.__hourly_rate
+        overtime_hours_worked = hours_worked - reg_hours_worked
+        regular_pay = reg_hours_worked * self.__hourly_rate
         overtime_pay = int(overtime_rate * overtime_hours_worked)
         gross_pay = int(regular_pay + overtime_pay)
         higher_rate_pay = 0 if gross_pay < self.__standard_band else gross_pay - \
             self.__standard_band
-        standart_tax = int("{:.0f}".format(gross_pay * 0.2))
-        higher_tax = higher_rate_pay * 0.4
+        standart_tax = int(gross_pay * STANDARD_RATE)
+        higher_tax = higher_rate_pay * HIGHER_RATE
         total_tax = standart_tax + higher_tax
-        prsi = gross_pay * 0.04
+        prsi = gross_pay * PRSI_RATE
         net_tax = float("{:.1f}".format(total_tax - self.__tax_credit))
         net_deductions = prsi + net_tax
 
         return {'name': f'{self.__first_name} {self.__last_name}',
                 'Date': date,
-                'Regular Hours Worked': self.__reg_hours,
+                'Regular Hours Worked': reg_hours_worked,
                 'Overtime Hours Worked': overtime_hours_worked,
                 'Regular Rate': self.__hourly_rate,
                 'Overtime Rate': overtime_rate,
