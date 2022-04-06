@@ -5,4 +5,4 @@ import datetime
 
 jg = Employee(12345, 'Green', 'Joe', 37, 16, 1.5, 72, 710)
 
-print(jg.compute_payment(42, '31/10/2021'))
+print(jg.compute_payment(2, '31/10/2021'))

@@ -35,7 +35,8 @@ class Employee:
         higher_tax = higher_rate_pay * HIGHER_RATE
         total_tax = standart_tax + higher_tax
         prsi = gross_pay * PRSI_RATE
-        net_tax = float("{:.1f}".format(total_tax - self.__tax_credit))
+        net_tax = 0 if self.__tax_credit > total_tax else float(
+            "{:.1f}".format(total_tax - self.__tax_credit))
         net_deductions = prsi + net_tax
 
         return {'name': f'{self.__first_name} {self.__last_name}',
