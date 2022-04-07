@@ -46,5 +46,16 @@ class TestEmployee(unittest.TestCase):
         with self.assertRaises(ValueError):
             pi = e.compute_payment(10, '60/18/2721')
 
+    # Init values cannot be negative
+    def testInitValuesCannotBeNegative(self):
+        with self.assertRaises(ValueError):
+            e = Employee(12345, 'Green', 'Joe', -37, -16, 1.5, 72, 710)
+
+    # Hours worked cannot be negative
+    def testHoursWorkedCannotBeNegative(self):
+        e = Employee(12345, 'Green', 'Joe', 37, 16, 1.5, 72, 710)
+        with self.assertRaises(ValueError):
+            pi = e.compute_payment(-10, '31/10/2021')
+
 
 unittest.main(argv=['ignored'], exit=False)

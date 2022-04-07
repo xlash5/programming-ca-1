@@ -1,12 +1,13 @@
 # StaffID, LastName, FirstName, RegHours, HourlyRate, OTMultiple, TaxCredit, StandardBand,
 import datetime
-PRSI_RATE = 0.04
-HIGHER_RATE = 0.4
-STANDARD_RATE = 0.2
+from constants import *
 
 
 class Employee:
     def __init__(self, staff_id, last_name, first_name, reg_hours, hourly_rate, ot_multiple, tax_credit, standard_band):
+        if (reg_hours or hourly_rate or ot_multiple or tax_credit or standard_band) < 0:
+            raise ValueError("Negative value not allowed")
+
         self.__staff_id = staff_id
         self.__last_name = last_name
         self.__first_name = first_name
@@ -22,6 +23,9 @@ class Employee:
             datetime.datetime.strptime(date, '%d/%m/%Y')
         except Exception as e:
             raise ValueError('Invalid date format')
+
+        if hours_worked < 0:
+            raise ValueError('Hours work must be positive')
 
         reg_hours_worked = self.__reg_hours if self.__reg_hours <= hours_worked else hours_worked
         overtime_rate = int(self.__hourly_rate * self.__ot_multiple)
